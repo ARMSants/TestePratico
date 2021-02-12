@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Clientes";
+}
+
+
+<div class="col-md-12">
+    <h2><i class="fa fa-users"></i> Clientes </h2>
+</div>
+
+<div class="row">
+    <button type="button" class="btn btn-md btn-primary pull-right" onclick="OpenModal('modal','/Home/AdicionarCliente')"><i class="fa fa-plus"></i> Adicionar</button>
+</div>
+<hr />
+<div class="row" id="lstClientes">
+    @Html.Action("ListarClientes", "Home")
+</div>
+
+<script>
+
+
+    function SalvarCliente() {
+        debugger
+        var cliente = {};
+        $('#Cliente').serializeArray().map(function (x) { cliente[x.name] = x.value; });
+
+        if (IsNull(cliente.Nome) || IsNull(cliente.CPF) || IsNull(cliente.RG) || IsNull(cliente.DataNascimento)) {
+            Mensagem('error', '', '', 'Favor preencher o formulario corretamente.')
+            return false;
+        }
+
+        if (!validaCPF(cliente.CPF)) {
+            noty({
+                text: 'CPF inválido',
+                layout: 'bottomRight',
+                type: 'error',
+                timeout: 5000
+            });
+            return false;
+        }
+
+
+        $.ajax({
+            url: $("#Cliente").attr('action'),
+            type: 'POST',
+            data: { cliente },
+            async: false,
+            success: function (data) {
+                if (data.Identificador > 0) {
+
+
+                    OpenModal('modal', `/Home/EditarCliente/?Identificador=${data.Identificador}`)
+                    $("#lstClientes").load('/Home/ListarClientes');
+                    noty({
+                        text: 'Requisição realizada com sucesso.',
+                        layout: 'bottomRight',
+                        type: 'success',
+                        timeout: 5000
+                    });
+                }
+                else {
+                    Mensagem('error', '', '', data == false ? 'Não foi possivel realizar esta requisição. Favor verificar o formulario novamente.' : data);
+                }
+            }
+        });
+
+    }
+
+
+   
+</script>

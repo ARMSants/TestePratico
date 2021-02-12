@@ -1,0 +1,69 @@
+﻿@model TestePraticoDesenvolvedorTrainee.Models.Endereco
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = " form-horizontal", role = "form", @id = "Endereco" }))
+{
+<div class="row">
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.CEP)
+        @Html.TextBoxFor(m => m.CEP, new { @class = "form-control cep" })
+    </div>
+    <div class="col-md-6">
+        @Html.LabelFor(m => m.Logradouro)
+        @Html.TextBoxFor(m => m.Logradouro, new { @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        @Html.Label("Número")
+        @Html.TextBoxFor(m => m.Numero, new { @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.Cidade)
+        @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        @Html.LabelFor(m => m.UF)
+        @Html.TextBoxFor(m => m.UF, new { @class = "form-control" })
+    </div>
+    <div class="col-md-6">
+        @Html.LabelFor(m => m.Complemento)
+        @Html.TextBoxFor(m => m.Complemento, new { @class = "form-control" })
+    </div>
+
+</div>
+}
+
+<div class="text-center">
+    <button type="button" class="btn btn-md btn-success" onclick="AdicionarEndereco()"><i class="fa fa-plus"></i> Adicionar</button>
+</div>
+
+<script>
+    function AdicionarEndereco() {
+        var endereco = {};
+        $("#Endereco").serializeArray().map(function (x) { endereco[x.name] = x.value; });
+        debugger
+
+        endereco.IdentificadorCliente = $("#Cliente #Identificador").val();
+        if (IsNull(endereco.CEP) || IsNull(endereco.Logradouro) || IsNull(endereco.UF) || IsNull(endereco.Cidade) || IsNull(endereco.Numero)) {
+            Mensagem('error', '', '', 'Favor preencher o formulario corretamente.')
+            return false;
+        }
+        $.ajax({
+            url: $("#Endereco").attr('action'),
+            type: 'POST',
+            data: { endereco },
+            async: false,
+            success: function (data) {
+                if (data) {
+
+                    Mensagem('success', '', '', 'Requisição realizada com sucesso.');
+
+                    LoadLstEnderecos();
+                    CleanForm("#Endereco");
+                }
+                else {
+                    Mensagem('error', '', '', data == false ? 'Não foi possivel realizar esta requisição. Favor verificar o formulario novamente.' : data);
+                }
+            }
+        });
+    }
+</script>

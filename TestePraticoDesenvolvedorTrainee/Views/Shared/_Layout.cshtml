@@ -1,0 +1,54 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestePratico | @ViewBag.Title</title>
+    <link rel="icon" href="/favicon.ico" type="/image/x-icon" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/Template")
+    @Scripts.Render("~/bundles/jquery")
+
+</head>
+<body>
+    <!-- START PAGE CONTAINER -->
+    <div class="page-container page-navigation-top">
+        <!-- PAGE CONTENT -->
+        <div class="page-content">
+            <!-- Sidebar Menu -->
+            <!-- /Sidebar Menu -->
+            <ul class="breadcrumb loguser"></ul>
+            <!-- END BREADCRUMB -->
+            <!-- PAGE CONTENT WRAPPER -->
+            <div class="page-content-wrap">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modais -->
+                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="lbl" aria-hidden="true" data-backdrop="static">
+                    </div>
+                    <div class="modal fade" id="secondmodal" tabindex="-1" role="dialog" aria-labelledby="lbl" aria-hidden="true" data-backdrop="static">
+                    </div>
+                    <!-- Modais -->
+                </div>
+                <div class="loading" style="display:none"><img style="width:110px; height:110px; z-index: 999999999999999999999; position: fixed; left:90%; top:85%;" src="~/assets/images/teste.gif" /></div>
+            </div>
+            <!-- PAGE CONTENT WRAPPER -->
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/App")
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script src="~/Scripts/Template/plugins/jquery/jquery-migrate.min-v3.0.0.js"></script>
